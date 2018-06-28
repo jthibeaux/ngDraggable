@@ -141,6 +141,7 @@ angular.module("ngDraggable", [])
                 };
 
                 var cancelPress = function() {
+                    element.removeClass('longpress');
                     clearTimeout(_pressTimer);
                     $document.off(_moveEvents, cancelPress);
                     $document.off(_releaseEvents, cancelPress);
@@ -148,6 +149,8 @@ angular.module("ngDraggable", [])
 
                 var onlongpress = function(evt) {
                     if(! _dragEnabled)return;
+
+                    element.addClass('longpress');
                     evt.preventDefault();
 
                     offset = element[0].getBoundingClientRect();
@@ -191,6 +194,7 @@ angular.module("ngDraggable", [])
                     if (!element.hasClass('dragging')) {
                         _data = getDragData(scope);
                         element.addClass('dragging');
+                        element.removeClass('longpress');
                         $rootScope.$broadcast('draggable:start', {x:_mx, y:_my, tx:_tx, ty:_ty, event:evt, element:element, data:_data});
 
                         if (onDragStartCallback ){
